@@ -160,9 +160,9 @@ print("Code:", code)
 initGuess = [random.randint(0,5) for _ in range(4)]
 print("Init Guess:", initGuess)
 
-# pureRandom(code)
-# randomNoReplace(code)
-# genetic(code, initGuess)
+pureRandom(code)
+randomNoReplace(code)
+genetic(code, initGuess)
 mcmc(code, initGuess)
-# reinforcement(code, initGuess)
+reinforcement(code, initGuess)
 
