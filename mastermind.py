@@ -20,7 +20,7 @@ def pureRandom(code, trials=100):
 
 	print("Pure Random (guesses):", av)
 
-def trackedRandom(code, trials=100):
+def randomNoReplace(code, trials=100):
 	code = sum([code[i]*6**(3-i) for i in range(4)])
 
 
@@ -37,7 +37,7 @@ def trackedRandom(code, trials=100):
 			av = c
 		else:
 			av = 0.5*av + 0.5*c
-	print("Sampled Random w/o Replacement (guesses):", av)
+	print("Random w/o Replacement (guesses):", av)
 
 
 def genetic(code, curGuess, trials=100):
@@ -45,6 +45,7 @@ def genetic(code, curGuess, trials=100):
 	for _ in range(trials):
 		curGuess = initGuess[:]
 		pq = []
+		scores = [compObs(curGuess, code, 2)]
 		c = 0
 		while curGuess != code:
 			for d in range(4):
@@ -52,17 +53,20 @@ def genetic(code, curGuess, trials=100):
 				
 				redPin = sum([curGuess[i] == code[i] for i in range(4)])
 				whitePin = sum([1 for i in curGuess if i in code]) - redPin
-				obs = 2*redPin + whitePin
-
+				obs = compObs(curGuess, code, 2)
 				heapq.heappush(pq, (-obs, curGuess))
 			c+=4
 			curGuess = heapq.heappop(pq)
 			curGuess = curGuess[1]
+			scores.append(compObs(curGuess, code, 2))
 		if av is None:
 			av = c
 		else:
 			av = (av + c)/2
 	print("Genetic:", av)
+	# print(scores)
+	# plt.plot(range(len(scores)), scores)
+	# plt.show()
 
 
 def compObs(g, code, scale=4):
@@ -77,7 +81,7 @@ def normalProp(mu, sd):
 	return prop
 
 
-def mcmc(code, initGuess, trials=100):
+def mcmc(code, initGuess, trials=1):
 	av = None
 	for _ in range(trials):
 		probs = [[1 for _ in range(6)] for __ in range(4)]
@@ -152,7 +156,7 @@ initGuess = [random.randint(0,5) for _ in range(4)]
 print("Init Guess:", initGuess)
 
 pureRandom(code)
-trackedRandom(code)
+randomNoReplace(code)
 genetic(code, initGuess)
 mcmc(code, initGuess)
 reinforcement(code, initGuess)
