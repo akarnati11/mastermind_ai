@@ -40,7 +40,7 @@ def randomNoReplace(code, trials=100):
 	print("Random w/o Replacement (guesses):", av)
 
 
-def genetic(code, curGuess, trials=100):
+def genetic(code, curGuess, trials=1000):
 	av = None
 	for _ in range(trials):
 		curGuess = initGuess[:]
@@ -81,7 +81,7 @@ def normalProp(mu, sd):
 	return prop
 
 
-def mcmc(code, initGuess, trials=1):
+def mcmc(code, initGuess, trials=1000):
 	av = None
 	for _ in range(trials):
 		probs = [[1 for _ in range(6)] for __ in range(4)]
@@ -97,6 +97,9 @@ def mcmc(code, initGuess, trials=1):
 					curGuess[i] = prop
 					probs[i][curGuess[i]] = (compObs(curGuess, code) + probs[i][curGuess[i]])/2
 				curProp.append(curGuess[i])
+			if c % 10 == 0:
+				curGuess[i] = np.argmax(probs[i])
+
 			states.append(curProp)
 			c+=1
 	if av is None:
@@ -121,7 +124,7 @@ def sample(cP):
 	return -1
 
 
-def reinforcement(code, initGuess, trials=100):
+def reinforcement(code, initGuess, trials=1000):
 	av = None
 	alpha = .5
 	for _ in range(trials):
@@ -129,7 +132,7 @@ def reinforcement(code, initGuess, trials=100):
 		curGuess = initGuess[:]
 		c = 0
 
-		while curGuess is None or curGuess != code:
+		while curGuess != code:
 			obs = compObs(curGuess, code)
 
 			for i in range(4):
@@ -141,6 +144,7 @@ def reinforcement(code, initGuess, trials=100):
 				curGuess = [np.argmax(q) for q in Q]
 
 			c += 1
+			# print(Q)
 
 		if av is None:
 			av = c
