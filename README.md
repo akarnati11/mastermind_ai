@@ -1,5 +1,7 @@
 ## mastermind_ai
 
+A few implementations of mastermind solvers that I wrote for fun. Note: mastermind was proved solvable in less than 5 steps by Knuth in 1977 (https://en.wikipedia.org/wiki/Mastermind_(board_game)).
+
 ### Pure Random:
 Randomly choose 4 colors for a guess, independent of each other and previous guesses. Models a ~Geom((1/6)^4) with an expected number of guesses as 6^4. Does not use any observation information.
 
