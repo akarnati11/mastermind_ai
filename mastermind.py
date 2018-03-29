@@ -81,7 +81,7 @@ def normalProp(mu, sd):
 	return prop
 
 
-def mcmc(code, initGuess, trials=1000):
+def mcmc(code, initGuess, trials=1):
 	av = None
 	for _ in range(trials):
 		probs = [[1 for _ in range(6)] for __ in range(4)]
@@ -107,7 +107,8 @@ def mcmc(code, initGuess, trials=1000):
 	else:
 		av = (av + c)/2
 	print("MCMC Method:", av)
-	states = np.array(states)
+	# Visualization of the colors MCMC chooses to play for each slot
+	# states = np.array(states)
 	# for i in range(4):
 	# 	plt.plot(range(len(states)), states[:,i])
 	# 	plt.plot(range(len(states)), np.full((len(states),), np.mean(states[:,i])))
@@ -159,9 +160,9 @@ print("Code:", code)
 initGuess = [random.randint(0,5) for _ in range(4)]
 print("Init Guess:", initGuess)
 
-pureRandom(code)
-randomNoReplace(code)
-genetic(code, initGuess)
+# pureRandom(code)
+# randomNoReplace(code)
+# genetic(code, initGuess)
 mcmc(code, initGuess)
-reinforcement(code, initGuess)
+# reinforcement(code, initGuess)
 
