@@ -110,7 +110,7 @@ def candCode(g):
 # Angela Snyder's algorithm for MCMC on Mastermind
 def mcmc2(code, initGuess, trials=100):
 	av = None
-	burnIn = 1000
+	burnIn = 500
 	res = []
 	for _ in range(trials):
 		curGuess = initGuess[:]
@@ -178,16 +178,16 @@ def mcmc(code, initGuess, trials=100):
 		av = c
 	else:
 		av = (av + c)/2
-	plt.hist(res, 100)
-	plt.show()
+	# plt.hist(res, 100)
+	# plt.show()
 	print("MCMC Method:", av)
 	# Visualization of the colors MCMC chooses to play for each slot
-	states = np.array(states)
-	for i in range(4):
-		plt.plot(range(len(states)), states[:,i])
-		plt.plot(range(len(states)), np.full((len(states),), stats.mode(states[:,i])[0]))
-		plt.plot(range(len(states)), np.full((len(states),), np.mean(states[:, i])))
-		plt.show()
+	# states = np.array(states)
+	# for i in range(4):
+	# 	plt.plot(range(len(states)), states[:,i])
+	# 	plt.plot(range(len(states)), np.full((len(states),), stats.mode(states[:,i])[0]))
+	# 	plt.plot(range(len(states)), np.full((len(states),), np.mean(states[:, i])))
+	# 	plt.show()
 
 
 def sample(cP):
@@ -229,8 +229,8 @@ def reinforcement(code, initGuess, trials=100):
 		else:
 			av = (av + c) / 2
 	print("Q Learning:", av)
-	plt.hist(res, 50)
-	plt.show()
+	# plt.hist(res, 50)
+	# plt.show()
 
 
 code = [random.randint(0,5) for _ in range(4)]
@@ -239,10 +239,11 @@ print("Code:", code)
 initGuess = [random.randint(0,5) for _ in range(4)]
 print("Init Guess:", initGuess)
 
-# pureRandom(code)
-# randomNoReplace(code)
-# genetic(code, initGuess)
-# mcmc(code, initGuess)
-# reinforcement(code, initGuess)
+
+pureRandom(code)
+randomNoReplace(code)
+genetic(code, initGuess)
+mcmc(code, initGuess)
+reinforcement(code, initGuess)
 mcmc2(code, initGuess)
 
